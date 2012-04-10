@@ -159,14 +159,17 @@ trait PlaySettings {
 
     resourceGenerators in Compile <+= LessCompiler,
     resourceGenerators in Compile <+= CoffeescriptCompiler,
+    resourceGenerators in Compile <+= DustCompiler,
     resourceGenerators in Compile <+= JavascriptCompiler,
 
     lessEntryPoints <<= (sourceDirectory in Compile)(base => ((base / "assets" ** "*.less") --- base / "assets" ** "_*")),
     coffeescriptEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" ** "*.coffee"),
+    dustEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" ** "*.tl"),
     javascriptEntryPoints <<= (sourceDirectory in Compile)(base => ((base / "assets" ** "*.js") --- (base / "assets" ** "_*"))),
 
     lessOptions := Seq.empty[String],
     coffeescriptOptions := Seq.empty[String],
+    dustOptions := Seq.empty[String],
     closureCompilerOptions := Seq.empty[String],
 
     // Templates

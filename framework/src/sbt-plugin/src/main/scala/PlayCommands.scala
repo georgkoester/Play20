@@ -434,6 +434,22 @@ exec java $* -cp "`dirname $0`/lib/*" """ + config.map(_ => "-Dconfig.file=`dirn
     coffeescriptOptions
   )
 
+  val DustCompiler = AssetsCompiler("dust",
+    (_ ** "*.tl"),
+    dustEntryPoints,
+    { (name, min) => name.replace(".tl", if (min) ".tl.min.js" else ".tl.js") },
+    { (dustFile, options) =>
+      import scala.util.control.Exception._
+      val jsSource = play.core.dust.DustCompiler.compile(dustFile)
+      // Any error here would be because of dust.js, not the developer;
+      // so we don't want compilation to fail.
+      val minified = catching(classOf[CompilationException])
+        .opt(play.core.jscompile.JavascriptCompiler.minify(jsSource, Some(dustFile.getName())))
+      (jsSource, minified, Seq(dustFile))
+    },
+    dustOptions
+  )
+
   // ----- Post compile (need to be refactored and fully configurable)
 
   val PostCompile = (sourceDirectory in Compile, dependencyClasspath in Compile, compile in Compile, javaSource in Compile, sourceManaged in Compile, classDirectory in Compile, ebeanEnabled) map { (src, deps, analysis, javaSrc, srcManaged, classes, ebean) =>

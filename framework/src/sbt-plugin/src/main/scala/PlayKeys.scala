@@ -22,9 +22,13 @@ trait PlayKeys {
 
   val coffeescriptOptions = SettingKey[Seq[String]]("play-coffeescript-options")
 
+  val dustOptions = SettingKey[Seq[String]]("play-dust-options")
+
   val lessEntryPoints = SettingKey[PathFinder]("play-less-entry-points")
 
   val coffeescriptEntryPoints = SettingKey[PathFinder]("play-coffeescript-entry-points")
+
+  val dustEntryPoints = SettingKey[PathFinder]("play-dust-entry-points")
 
   val javascriptEntryPoints = SettingKey[PathFinder]("play-javascript-entry-points")
 
